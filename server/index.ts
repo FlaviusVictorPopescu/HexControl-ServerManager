@@ -5,6 +5,7 @@ import { handleDemo } from "./routes/demo";
 import { getDomains, postDomain, putDomain, deleteDomainHandler, getDomainById } from "./routes/domains";
 import { listFilesHandler, uploadFileHandler, deleteFileHandler } from "./routes/files";
 import { sseEvents } from "./routes/events";
+import { installNginx, restartDocker, restartNginx } from "./routes/ops";
 
 export function createServer() {
   const app = express();
@@ -38,10 +39,9 @@ export function createServer() {
   app.get("/api/events", sseEvents);
 
   // Operations (stubbed)
-  const ops = require("./routes/ops");
-  app.post("/api/nginx/install", ops.installNginx);
-  app.post("/api/nginx/restart", ops.restartNginx);
-  app.post("/api/docker/restart", ops.restartDocker);
+  app.post("/api/nginx/install", installNginx);
+  app.post("/api/nginx/restart", restartNginx);
+  app.post("/api/docker/restart", restartDocker);
 
   return app;
 }

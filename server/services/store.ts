@@ -99,9 +99,12 @@ export function deleteFile(domainId: string, fileId: string): boolean {
   return true;
 }
 
+import { saveActivity } from "./db";
+
 export function pushActivity(partial: Omit<ActivityEvent, "id" | "createdAt">) {
   const evt: ActivityEvent = { id: randomUUID(), createdAt: now(), ...partial };
   activities.unshift(evt);
+  try { saveActivity({ id: evt.id, kind: evt.kind, message: evt.message, createdAt: evt.createdAt, domainId: evt.domainId, meta: evt.meta }); } catch {}
   subscribers.forEach((s) => s.send(evt));
 }
 

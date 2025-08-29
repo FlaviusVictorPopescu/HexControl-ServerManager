@@ -12,6 +12,8 @@ import { getServices } from "./routes/services";
 
 export function createServer() {
   const app = express();
+  // Start background poller for services (SSH)
+  try { require("./services/poller").startServicesPoller(); } catch {}
 
   // Middleware
   app.use(cors());

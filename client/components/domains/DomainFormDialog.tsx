@@ -28,6 +28,7 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
       setName("");
       setNodeVersion("20");
       setSslEnabled(true);
+      setAutoSsl(true);
       setDockerContainer("");
       setNginxProxy("");
     }

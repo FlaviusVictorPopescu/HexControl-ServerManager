@@ -94,7 +94,7 @@ function ProxyDialog({ onSaved }: { onSaved: () => void }) {
   const [domain, setDomain] = React.useState("");
   const [upstream, setUpstream] = React.useState("http://localhost:3000");
   const [open, setOpen] = React.useState(false);
-  const save = useMutation({ mutationFn: () => Api.setNginxProxy(domain, upstream), onSuccess: () => { onSaved(); setOpen(false); } });
+  const save = useMutation({ mutationFn: () => Api.setNginxProxy(domain.trim(), upstream.trim()), onSuccess: () => { onSaved(); setOpen(false); }, onError: () => alert("Failed to configure proxy. Ensure SSH access and permissions are correct.") });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild><Button>Configure Proxy</Button></DialogTrigger>
@@ -109,7 +109,7 @@ function ProxyDialog({ onSaved }: { onSaved: () => void }) {
             <Label htmlFor="u">Upstream URL</Label>
             <Input id="u" placeholder="http://localhost:3000" value={upstream} onChange={(e) => setUpstream(e.target.value)} />
           </div>
-          <Button onClick={() => save.mutate()} disabled={!domain || !upstream}>Save</Button>
+          <Button onClick={() => save.mutate()} disabled={!domain || !upstream || save.isPending}>{save.isPending ? "Saving..." : "Save"}</Button>
         </div>
       </DialogContent>
     </Dialog>

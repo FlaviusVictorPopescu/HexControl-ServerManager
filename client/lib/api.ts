@@ -50,6 +50,7 @@ export const Api = {
   enableSite: (domain: string) => http<{ status: string }>("/api/nginx/sites/enable", { method: "POST", body: JSON.stringify({ domain }) }),
   disableSite: (domain: string) => http<{ status: string }>("/api/nginx/sites/disable", { method: "POST", body: JSON.stringify({ domain }) }),
   issueSSL: (domain: string) => http<{ status: string }>("/api/nginx/ssl", { method: "POST", body: JSON.stringify({ domain }) }),
+  certExpiry: (domain: string) => http<{ domain: string; expiresAt: string | null }>(`/api/cert/expiry?domain=${encodeURIComponent(domain)}`),
   login: (email: string, password: string) => http<{ token: string; user: { email: string } }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   logout: () => fetch("/api/auth/logout", { method: "POST", headers: { Authorization: `Bearer ${token()}` } }).then(() => {}),
 };

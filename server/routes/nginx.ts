@@ -61,3 +61,41 @@ export const configureProxy: RequestHandler = async (req, res) => {
     res.status(500).json({ error: String(e?.message || e) });
   }
 };
+
+export const enableSite: RequestHandler = async (req, res) => {
+  const name = (req.body?.domain as string || "").replace(/[^a-zA-Z0-9.-]/g, "");
+  try {
+    await runSSH(`bash -lc 'ln -sf /etc/nginx/sites-available/${name}.conf /etc/nginx/sites-enabled/${name}.conf && nginx -t && systemctl reload nginx'`);
+    pushActivity({ kind: "domain.updated", message: `Enabled site ${name}` });
+    res.json({ status: "ok" });
+  } catch (e: any) {
+    res.status(500).json({ error: String(e?.message || e) });
+  }
+};
+
+export const disableSite: RequestHandler = async (req, res) => {
+  const name = (req.body?.domain as string || "").replace(/[^a-zA-Z0-9.-]/g, "");
+  try {
+    await runSSH(`bash -lc 'rm -f /etc/nginx/sites-enabled/${name}.conf && nginx -t && systemctl reload nginx'`);
+    pushActivity({ kind: "domain.updated", message: `Disabled site ${name}` });
+    res.json({ status: "ok" });
+  } catch (e: any) {
+    res.status(500).json({ error: String(e?.message || e) });
+  }
+};
+
+export const issueSSL: RequestHandler = async (req, res) => {
+  const name = (req.body?.domain as string || "").replace(/[^a-zA-Z0-9.-]/g, "");
+  const email = process.env.CERTBOT_EMAIL || "admin@hexbit.ro";
+  try {
+    const install = `bash -lc 'if ! command -v certbot >/dev/null; then apt update -y && apt install -y certbot python3-certbot-nginx; fi'`;
+    await runSSH(install);
+    const cmd = `bash -lc 'certbot --nginx -n --agree-tos -m ${email} -d ${name} || true'`;
+    const { stdout, stderr } = await runSSH(cmd);
+    pushActivity({ kind: "ssl.issued", message: `Certbot attempted for ${name}`, meta: { stdout, stderr } });
+    res.json({ status: "ok" });
+  } catch (e: any) {
+    pushActivity({ kind: "ssl.failed", message: `Certbot failed for ${name}` });
+    res.status(500).json({ error: String(e?.message || e) });
+  }
+};

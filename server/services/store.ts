@@ -36,7 +36,9 @@ export function createDomain(input: CreateDomainInput): Domain {
     dockerContainer: input.dockerContainer ?? null,
     nginxProxy: input.nginxProxy ?? null,
     sslEnabled: Boolean(input.sslEnabled ?? true),
+    autoSslEnabled: input.autoSslEnabled ?? true,
     sslStatus: input.sslEnabled === false ? "none" : "pending",
+    certExpiresAt: null,
     createdAt: now(),
     updatedAt: now(),
   };

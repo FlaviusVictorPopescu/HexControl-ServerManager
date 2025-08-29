@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Globe2, Server, Boxes } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();

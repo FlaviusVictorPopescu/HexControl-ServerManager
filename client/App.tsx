@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Domains from "./pages/Domains";
 import Nginx from "./pages/Nginx";
+import Docker from "./pages/Docker";
 import Login from "./pages/Login";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AuthProvider, useAuth } from "./hooks/use-auth";

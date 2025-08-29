@@ -47,7 +47,8 @@ export type ActivityKind =
   | "file.uploaded"
   | "file.deleted"
   | "ssl.issued"
-  | "ssl.failed";
+  | "ssl.failed"
+  | "service.status";
 
 export interface ActivityEvent {
   id: string;
@@ -55,6 +56,14 @@ export interface ActivityEvent {
   message: string;
   createdAt: string; // ISO date
   domainId?: string;
+  meta?: Record<string, any>;
+}
+
+export type ServiceName = "nginx" | "docker";
+export type ServiceState = "running" | "stopped" | "restarting";
+export interface ServicesStatus {
+  nginx: ServiceState;
+  docker: ServiceState;
 }
 
 export interface Paginated<T> {

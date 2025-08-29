@@ -20,7 +20,9 @@ export interface Domain {
   parentDomainId?: string | null;
   nodeVersion: NodeVersion;
   sslEnabled: boolean;
+  autoSslEnabled?: boolean;
   sslStatus: "pending" | "issued" | "failed" | "none";
+  certExpiresAt?: string | null; // ISO date when available
   dockerContainer?: string | null;
   nginxProxy?: string | null; // e.g. http://localhost:3000
   createdAt: string; // ISO date
@@ -87,6 +89,7 @@ export interface CreateDomainInput {
   dockerContainer?: string | null;
   nginxProxy?: string | null;
   sslEnabled?: boolean;
+  autoSslEnabled?: boolean;
 }
 
 export interface UpdateDomainInput extends Partial<CreateDomainInput> {}

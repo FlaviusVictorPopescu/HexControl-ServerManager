@@ -44,6 +44,9 @@ export const Api = {
   servicesStatus: () => http<{ nginx: string; docker: string }>("/api/services/status"),
   getNginxScript: () => fetch("/api/scripts/nginx.sh").then((r) => r.text()),
   getDockerComposeScript: () => fetch("/api/scripts/docker-compose.sh").then((r) => r.text()),
+  getNginxConfig: () => fetch("/api/nginx/config").then((r) => r.text()),
+  listNginxSites: () => http<import("@shared/api").NginxSiteSummary[]>("/api/nginx/sites"),
+  setNginxProxy: (domain: string, upstream: string) => http<{ status: string }>("/api/nginx/proxy", { method: "POST", body: JSON.stringify({ domain, upstream }) }),
   login: (email: string, password: string) => http<{ token: string; user: { email: string } }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   logout: () => fetch("/api/auth/logout", { method: "POST", headers: { Authorization: `Bearer ${token()}` } }).then(() => {}),
 };

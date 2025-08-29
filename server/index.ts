@@ -62,6 +62,9 @@ export function createServer() {
   app.get("/api/nginx/config", getNginxConfig);
   app.get("/api/nginx/sites", listNginxSites);
   app.post("/api/nginx/proxy", configureProxy);
+  app.post("/api/nginx/sites/enable", enableSite);
+  app.post("/api/nginx/sites/disable", disableSite);
+  app.post("/api/nginx/ssl", issueSSL);
 
   // Install scripts
   app.get("/api/scripts/nginx.sh", getNginxScript);

@@ -67,6 +67,8 @@ export default function NginxPage() {
   );
 }
 
+import * as React from "react";
+
 function ProxyDialog({ onSaved }: { onSaved: () => void }) {
   const [domain, setDomain] = React.useState("");
   const [upstream, setUpstream] = React.useState("http://localhost:3000");

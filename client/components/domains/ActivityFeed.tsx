@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import type { ActivityEvent } from "@shared/api";
 import { Api } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 export function ActivityFeed() {
   const [events, setEvents] = useState<ActivityEvent[]>([]);
 
   useEffect(() => {
     const unsub = Api.subscribeEvents(
-      (e) => setEvents((prev) => [e, ...prev].slice(0, 50)),
+      (e) => {
+        setEvents((prev) => [e, ...prev].slice(0, 50));
+        if (e.kind === "service.status" || e.kind.includes("nginx") || e.kind.includes("docker")) {
+          toast(e.message);
+        }
+      },
       (seed) => setEvents(seed),
     );
     return unsub;

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DomainFormDialog } from "@/components/domains/DomainFormDialog";
 import { DomainTable } from "@/components/domains/DomainTable";
+import { FileManager } from "@/components/domains/FileManager";
 import type { CreateDomainInput, Domain } from "@shared/api";
 
 export default function Domains() {

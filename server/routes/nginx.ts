@@ -68,6 +68,8 @@ export const enableSite: RequestHandler = async (req, res) => {
   try {
     await runSSH(`bash -lc 'ln -sf /etc/nginx/sites-available/${name}.conf /etc/nginx/sites-enabled/${name}.conf && nginx -t && systemctl reload nginx'`);
     pushActivity({ kind: "domain.updated", message: `Enabled site ${name}` });
+    // Auto-SSL attempt (non-blocking)
+    issueSslForDomain(name).catch(() => {});
     res.json({ status: "ok" });
   } catch (e: any) {
     res.status(500).json({ error: String(e?.message || e) });

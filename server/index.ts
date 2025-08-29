@@ -74,5 +74,8 @@ export function createServer() {
   // Activities
   app.get("/api/activities", listActivities);
 
+  // Certificates
+  app.get("/api/cert/expiry", getCertExpiry);
+
   return app;
 }

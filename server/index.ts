@@ -9,7 +9,7 @@ import { installNginx, restartDocker, restartNginx } from "./routes/ops";
 import { login, logout, me } from "./routes/auth";
 import { getNginxScript, getDockerComposeScript } from "./routes/scripts";
 import { getServices } from "./routes/services";
-import { configureProxy, getNginxConfig, listNginxSites } from "./routes/nginx";
+import { configureProxy, getNginxConfig, listNginxSites, enableSite, disableSite, issueSSL } from "./routes/nginx";
 import { listActivities } from "./routes/activities";
 
 export function createServer() {

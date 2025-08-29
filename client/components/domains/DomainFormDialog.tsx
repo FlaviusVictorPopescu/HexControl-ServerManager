@@ -12,6 +12,7 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
   const [name, setName] = useState("");
   const [nodeVersion, setNodeVersion] = useState<NodeVersion>("20");
   const [sslEnabled, setSslEnabled] = useState(true);
+  const [autoSsl, setAutoSsl] = useState(true);
   const [dockerContainer, setDockerContainer] = useState("");
   const [nginxProxy, setNginxProxy] = useState("");
 

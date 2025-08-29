@@ -76,6 +76,8 @@ export default function Index() {
           <Button variant="outline" className="justify-start" onClick={() => Api.installNginx()}>Install Nginx</Button>
           <Button variant="outline" className="justify-start" onClick={() => Api.restartNginx()}>Restart Nginx</Button>
           <Button variant="outline" className="justify-start" onClick={() => Api.restartDocker()}>Restart Docker</Button>
+          <a className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm" href="/api/scripts/nginx.sh" download>Download nginx.sh</a>
+          <a className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm" href="/api/scripts/docker-compose.sh" download>Download docker-compose.sh</a>
         </CardContent>
       </Card>
     </div>

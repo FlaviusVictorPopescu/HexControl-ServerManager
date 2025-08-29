@@ -19,6 +19,7 @@ export function DomainTable({ domains, onEdit, onDelete }: { domains: Domain[]; 
             <TableHead>Type</TableHead>
             <TableHead>Node</TableHead>
             <TableHead>SSL</TableHead>
+            <TableHead>Expiry</TableHead>
             <TableHead>Docker</TableHead>
             <TableHead>Nginx</TableHead>
             <TableHead className="text-right">Actions</TableHead>

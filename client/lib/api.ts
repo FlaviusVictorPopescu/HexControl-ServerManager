@@ -1,7 +1,13 @@
 import type { ActivityEvent, CreateDomainInput, Domain, FileEntry, UpdateDomainInput } from "@shared/api";
 
+function token() {
+  try { return localStorage.getItem("auth_token"); } catch { return null; }
+}
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(path, { headers: { "Content-Type": "application/json" }, ...init });
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const t = token();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
+  const res = await fetch(path, { headers, ...init });
   if (!res.ok) throw new Error(await res.text());
   return res.json() as Promise<T>;
 }

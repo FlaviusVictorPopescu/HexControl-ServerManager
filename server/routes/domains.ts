@@ -6,12 +6,18 @@ export const getDomains: RequestHandler = (_req, res) => {
   res.json(listDomains());
 };
 
+import { issueSslForDomain } from "../services/nginx-utils";
+
 export const postDomain: RequestHandler = (req, res) => {
   const body = req.body as CreateDomainInput;
   if (!body?.name || !body?.nodeVersion) {
     return res.status(400).json({ error: "name and nodeVersion are required" });
   }
   const created = createDomain(body);
+  // Auto-SSL async if desired
+  if (created.sslEnabled) {
+    issueSslForDomain(created.name).catch(() => {});
+  }
   res.status(201).json(created);
 };
 

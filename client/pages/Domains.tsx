@@ -48,8 +48,7 @@ export default function Domains() {
       </Card>
       {domains.length > 0 && (
         <div>
-          {/** Simple file manager for the first domain for now (others can be selected later) */}
-          {(() => { const d = domains[0]; const { FileManager } = require("@/components/domains/FileManager"); return <FileManager domain={d} />; })()}
+          <FileManager domain={domains[0]} />
         </div>
       )}
     </div>

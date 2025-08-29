@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
-import type { ActivityEvent, CreateDomainInput, Domain, FileEntry, UpdateDomainInput } from "@shared/api";
+import type { ActivityEvent, CreateDomainInput, Domain, FileEntry, ServicesStatus, UpdateDomainInput } from "@shared/api";
 
 // In-memory stores (can be swapped with Mongo later)
 const domains = new Map<string, Domain>();
 const files = new Map<string, FileEntry[]>(); // key: domainId
 const activities: ActivityEvent[] = [];
+const sessions = new Set<string>();
+let services: ServicesStatus = { nginx: "running", docker: "running" };
 
 // SSE subscribers
 type Subscriber = { id: string; send: (data: ActivityEvent) => void };

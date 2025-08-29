@@ -35,7 +35,7 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
   }, [initial, open]);
 
   const submit = async () => {
-    await onSubmit({ name, nodeVersion, sslEnabled, dockerContainer: dockerContainer || null, nginxProxy: nginxProxy || null }, initial?.id);
+    await onSubmit({ name, nodeVersion, sslEnabled, autoSslEnabled: autoSsl, dockerContainer: dockerContainer || null, nginxProxy: nginxProxy || null }, initial?.id);
     setOpen(false);
   };
 

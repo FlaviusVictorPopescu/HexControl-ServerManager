@@ -41,4 +41,9 @@ export const Api = {
   installNginx: () => fetch("/api/nginx/install", { method: "POST" }).then(() => {}),
   restartNginx: () => fetch("/api/nginx/restart", { method: "POST" }).then(() => {}),
   restartDocker: () => fetch("/api/docker/restart", { method: "POST" }).then(() => {}),
+  servicesStatus: () => http<{ nginx: string; docker: string }>("/api/services/status"),
+  getNginxScript: () => fetch("/api/scripts/nginx.sh").then((r) => r.text()),
+  getDockerComposeScript: () => fetch("/api/scripts/docker-compose.sh").then((r) => r.text()),
+  login: (email: string, password: string) => http<{ token: string; user: { email: string } }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
+  logout: () => fetch("/api/auth/logout", { method: "POST", headers: { Authorization: `Bearer ${token()}` } }).then(() => {}),
 };

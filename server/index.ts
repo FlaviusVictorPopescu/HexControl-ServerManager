@@ -57,6 +57,11 @@ export function createServer() {
   app.post("/api/nginx/restart", restartNginx);
   app.post("/api/docker/restart", restartDocker);
 
+  // Nginx management
+  app.get("/api/nginx/config", getNginxConfig);
+  app.get("/api/nginx/sites", listNginxSites);
+  app.post("/api/nginx/proxy", configureProxy);
+
   // Install scripts
   app.get("/api/scripts/nginx.sh", getNginxScript);
   app.get("/api/scripts/docker-compose.sh", getDockerComposeScript);

@@ -15,6 +15,9 @@ export async function runSSH(command: string): Promise<{ code: number; stdout: s
   if (!SSH_HOST) throw new Error("SSH_HOST not configured");
   return new Promise((resolve, reject) => {
     const conn = new Client();
+    const cfg: any = { host: SSH_HOST, port: SSH_PORT, username: SSH_USER };
+    if (SSH_PRIVATE_KEY && SSH_PRIVATE_KEY.includes("BEGIN")) cfg.privateKey = SSH_PRIVATE_KEY;
+    else if (SSH_PASSWORD) cfg.password = SSH_PASSWORD;
     conn
       .on("ready", () => {
         conn.exec(command, (err, stream) => {
@@ -34,7 +37,7 @@ export async function runSSH(command: string): Promise<{ code: number; stdout: s
         });
       })
       .on("error", (e) => reject(e))
-      .connect({ host: SSH_HOST, port: SSH_PORT, username: SSH_USER, password: SSH_PASSWORD, privateKey: SSH_PRIVATE_KEY });
+      .connect(cfg);
   });
 }
 

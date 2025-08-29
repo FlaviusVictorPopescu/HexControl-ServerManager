@@ -73,9 +73,9 @@ export default function Index() {
           <CardTitle>One‑click Operations</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-3">
-          <Button variant="outline" className="justify-start">Install Nginx</Button>
-          <Button variant="outline" className="justify-start">Restart Nginx</Button>
-          <Button variant="outline" className="justify-start">Restart Docker</Button>
+          <Button variant="outline" className="justify-start" onClick={() => Api.installNginx()}>Install Nginx</Button>
+          <Button variant="outline" className="justify-start" onClick={() => Api.restartNginx()}>Restart Nginx</Button>
+          <Button variant="outline" className="justify-start" onClick={() => Api.restartDocker()}>Restart Docker</Button>
         </CardContent>
       </Card>
     </div>

@@ -6,6 +6,9 @@ import { getDomains, postDomain, putDomain, deleteDomainHandler, getDomainById }
 import { listFilesHandler, uploadFileHandler, deleteFileHandler } from "./routes/files";
 import { sseEvents } from "./routes/events";
 import { installNginx, restartDocker, restartNginx } from "./routes/ops";
+import { login, logout, me } from "./routes/auth";
+import { getNginxScript, getDockerComposeScript } from "./routes/scripts";
+import { getServices } from "./routes/services";
 
 export function createServer() {
   const app = express();

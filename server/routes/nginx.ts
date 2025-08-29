@@ -16,14 +16,17 @@ export const getNginxConfig: RequestHandler = async (_req, res) => {
 export const listNginxSites: RequestHandler = async (_req, res) => {
   try {
     const { stdout: enabledList } = await runSSH("ls /etc/nginx/sites-enabled 2>/dev/null || true");
-    const enabledFiles = new Set(enabledList.split(/\n+/).filter(Boolean).map((f) => `/etc/nginx/sites-enabled/${f}`));
+    const enabledNames = new Set(enabledList.split(/\n+/).filter(Boolean));
     const { stdout } = await runSSH("grep -R -nE 'server_name|listen|proxy_pass' /etc/nginx/sites-available /etc/nginx/sites-enabled /etc/nginx/conf.d 2>/dev/null || true");
     const map = new Map<string, NginxSiteSummary>();
     stdout.split(/\n/).forEach((line) => {
       const [file, _line, rest] = line.split(":");
       if (!file || !rest) return;
       const key = file;
-      const item = map.get(key) || { file, serverName: "", listens: [], upstream: null, enabled: enabledFiles.has(file) };
+      const base = file.split("/").pop() || "";
+      const name = base.replace(/\.conf$/, "");
+      const enabled = enabledNames.has(name + ".conf") || file.includes("/sites-enabled/");
+      const item = map.get(key) || { file, serverName: "", listens: [], upstream: null, enabled };
       if (rest.includes("server_name")) {
         const m = rest.match(/server_name\s+([^;]+);/);
         if (m) item.serverName = m[1].trim();

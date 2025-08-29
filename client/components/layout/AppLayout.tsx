@@ -50,8 +50,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 <span className="font-bold">HexControl</span>
               </Link>
             </div>
-            <div className="ml-auto text-sm text-muted-foreground">
-              admin@hexbit.ro
+            <div className="ml-auto flex items-center gap-3 text-sm text-muted-foreground">
+              <UserEmail />
             </div>
           </div>
         </header>

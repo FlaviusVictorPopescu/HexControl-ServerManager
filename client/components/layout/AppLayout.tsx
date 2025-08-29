@@ -10,6 +10,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
     { to: "/", label: "Dashboard", icon: Home },
     { to: "/domains", label: "Domains", icon: Globe2 },
     { to: "/nginx", label: "Nginx", icon: Server },
+    { to: "/docker", label: "Docker", icon: Boxes },
   ];
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/30">

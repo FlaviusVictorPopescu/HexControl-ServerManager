@@ -67,5 +67,8 @@ export function createServer() {
   app.get("/api/scripts/nginx.sh", getNginxScript);
   app.get("/api/scripts/docker-compose.sh", getDockerComposeScript);
 
+  // Activities
+  app.get("/api/activities", listActivities);
+
   return app;
 }

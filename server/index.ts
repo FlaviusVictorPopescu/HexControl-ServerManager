@@ -12,6 +12,7 @@ import { getServices } from "./routes/services";
 import { configureProxy, getNginxConfig, listNginxSites, enableSite, disableSite, issueSSL } from "./routes/nginx";
 import { listActivities } from "./routes/activities";
 import { getCertExpiry } from "./routes/certificates";
+import { assignContainerToDomain, createContainer, deleteContainer, installDocker as dockerInstall, listContainers as dockerList } from "./routes/docker";
 
 export function createServer() {
   const app = express();

@@ -35,7 +35,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <div className="mt-6 px-3">
             <div className="text-xs uppercase text-muted-foreground mb-2">Coming soon</div>
             <div className="flex flex-col gap-1 opacity-60">
-              <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium bg-muted/50"><Server className="h-4 w-4"/>Nginx</div>
               <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium bg-muted/50"><Boxes className="h-4 w-4"/>Docker</div>
             </div>
           </div>

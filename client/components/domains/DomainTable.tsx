@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import type { Domain } from "@shared/api";
 import { DomainFormDialog } from "./DomainFormDialog";
 
+import { Api } from "@/lib/api";
+
 export function DomainTable({ domains, onEdit, onDelete }: { domains: Domain[]; onEdit: (domain: Domain, patch: Partial<Domain>) => void; onDelete: (id: string) => void }) {
   const [editing, setEditing] = useState<Domain | null>(null);
 

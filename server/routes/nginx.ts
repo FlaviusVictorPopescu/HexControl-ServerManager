@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import { runSSH } from "../services/remote";
 import type { NginxSiteSummary } from "@shared/api";
 import { pushActivity } from "../services/store";
+import { issueSslForDomain } from "../services/nginx-utils";
 
 export const getNginxConfig: RequestHandler = async (_req, res) => {
   try {

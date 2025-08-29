@@ -48,6 +48,9 @@ export function DomainTable({ domains, onEdit, onDelete }: { domains: Domain[]; 
               <TableCell className="text-right space-x-2">
                 <DomainFormDialog initial={editing ?? d} onSubmit={async (input) => { onEdit(d, input as any); }}
                   trigger={<Button size="sm" variant="outline" onClick={() => setEditing(d)}>Edit</Button>} />
+                <Button size="sm" variant="outline" onClick={() => onEdit(d, { autoSslEnabled: !(d as any).autoSslEnabled })}>
+                  {(d as any).autoSslEnabled ? "Auto SSL: On" : "Auto SSL: Off"}
+                </Button>
                 <Button size="sm" variant="destructive" onClick={() => onDelete(d.id)}>Delete</Button>
               </TableCell>
             </TableRow>

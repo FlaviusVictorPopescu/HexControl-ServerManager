@@ -78,5 +78,12 @@ export function createServer() {
   // Certificates
   app.get("/api/cert/expiry", getCertExpiry);
 
+  // Docker
+  app.get("/api/docker/containers", dockerList);
+  app.post("/api/docker/install", dockerInstall);
+  app.post("/api/docker/create", createContainer);
+  app.post("/api/docker/delete", deleteContainer);
+  app.post("/api/docker/assign", assignContainerToDomain);
+
   return app;
 }

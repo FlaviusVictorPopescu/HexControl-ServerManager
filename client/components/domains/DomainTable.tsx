@@ -40,6 +40,9 @@ export function DomainTable({ domains, onEdit, onDelete }: { domains: Domain[]; 
                   <Badge variant="outline">disabled</Badge>
                 )}
               </TableCell>
+              <TableCell>
+                <Expiry domain={d.name} />
+              </TableCell>
               <TableCell>{d.dockerContainer ? <Badge variant="outline">{d.dockerContainer}</Badge> : <span className="text-muted-foreground">—</span>}</TableCell>
               <TableCell>{d.nginxProxy ? <span className="text-muted-foreground">{d.nginxProxy}</span> : <span className="text-muted-foreground">—</span>}</TableCell>
               <TableCell className="text-right space-x-2">

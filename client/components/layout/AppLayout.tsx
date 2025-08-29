@@ -61,3 +61,13 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+function UserEmail() {
+  const { user, logout } = useAuth();
+  return (
+    <div className="flex items-center gap-3">
+      <span>{user?.email}</span>
+      <button className="text-xs rounded-md border px-2 py-1 hover:bg-muted" onClick={() => logout()}>Logout</button>
+    </div>
+  );
+}

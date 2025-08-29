@@ -81,6 +81,14 @@ export interface NginxSiteSummary {
   enabled: boolean;
 }
 
+export interface DockerContainerInfo {
+  id: string;
+  name: string;
+  image: string;
+  status: string; // running, exited, etc
+  ports: string; // raw port mapping string
+}
+
 export interface CreateDomainInput {
   name: string;
   isSubdomain?: boolean;

@@ -87,16 +87,10 @@ export const disableSite: RequestHandler = async (req, res) => {
 
 export const issueSSL: RequestHandler = async (req, res) => {
   const name = (req.body?.domain as string || "").replace(/[^a-zA-Z0-9.-]/g, "");
-  const email = process.env.CERTBOT_EMAIL || "admin@hexbit.ro";
   try {
-    const install = `bash -lc 'if ! command -v certbot >/dev/null; then apt update -y && apt install -y certbot python3-certbot-nginx; fi'`;
-    await runSSH(install);
-    const cmd = `bash -lc 'certbot --nginx -n --agree-tos -m ${email} -d ${name} || true'`;
-    const { stdout, stderr } = await runSSH(cmd);
-    pushActivity({ kind: "ssl.issued", message: `Certbot attempted for ${name}`, meta: { stdout, stderr } });
+    await issueSslForDomain(name);
     res.json({ status: "ok" });
   } catch (e: any) {
-    pushActivity({ kind: "ssl.failed", message: `Certbot failed for ${name}` });
     res.status(500).json({ error: String(e?.message || e) });
   }
 };

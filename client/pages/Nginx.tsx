@@ -16,6 +16,16 @@ export default function NginxPage() {
 
   const restart = useMutation({ mutationFn: () => Api.restartNginx(), onSuccess: () => qc.invalidateQueries({ queryKey: ["nginx"] }) });
 
+  React.useEffect(() => {
+    const unsub = Api.subscribeEvents((e) => {
+      if (["domain.updated","ssl.issued","ssl.failed","nginx.restarted"].includes(e.kind)) {
+        sites.refetch();
+        config.refetch();
+      }
+    });
+    return unsub;
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

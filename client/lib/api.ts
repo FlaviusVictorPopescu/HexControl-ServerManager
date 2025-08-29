@@ -32,4 +32,7 @@ export const Api = {
     };
     return () => es.close();
   },
+  installNginx: () => fetch("/api/nginx/install", { method: "POST" }).then(() => {}),
+  restartNginx: () => fetch("/api/nginx/restart", { method: "POST" }).then(() => {}),
+  restartDocker: () => fetch("/api/docker/restart", { method: "POST" }).then(() => {}),
 };

@@ -37,5 +37,11 @@ export function createServer() {
   // Real-time events via SSE
   app.get("/api/events", sseEvents);
 
+  // Operations (stubbed)
+  const ops = require("./routes/ops");
+  app.post("/api/nginx/install", ops.installNginx);
+  app.post("/api/nginx/restart", ops.restartNginx);
+  app.post("/api/docker/restart", ops.restartDocker);
+
   return app;
 }

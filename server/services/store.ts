@@ -116,6 +116,29 @@ export function subscribe(send: (data: ActivityEvent) => void): () => void {
   return () => subscribers.delete(id);
 }
 
+// Services status helpers
+export function getServicesStatus(): ServicesStatus {
+  return services;
+}
+export function setServiceState(name: keyof ServicesStatus, state: ServicesStatus[typeof name]) {
+  services = { ...services, [name]: state } as ServicesStatus;
+  pushActivity({ kind: "service.status", message: `${name} is ${state}`, meta: { service: name, state } });
+}
+
+// Auth sessions (opaque tokens)
+export function createSession(): string {
+  const token = randomUUID();
+  sessions.add(token);
+  return token;
+}
+export function isValidSession(token?: string | null): boolean {
+  if (!token) return false;
+  return sessions.has(token);
+}
+export function revokeSession(token: string) {
+  sessions.delete(token);
+}
+
 // Seed some demo data for a nice first-run experience
 (function seed() {
   if (domains.size > 0) return;

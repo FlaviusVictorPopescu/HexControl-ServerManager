@@ -70,10 +70,17 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
           </div>
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Auto SSL (certbot)</Label>
-              <p className="text-xs text-muted-foreground">Request certificate automatically</p>
+              <Label>Enable SSL</Label>
+              <p className="text-xs text-muted-foreground">Serve HTTPS for this domain</p>
             </div>
             <Switch checked={sslEnabled} onCheckedChange={setSslEnabled} />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Auto SSL (certbot)</Label>
+              <p className="text-xs text-muted-foreground">Automatically issue/renew certificates</p>
+            </div>
+            <Switch checked={autoSsl} onCheckedChange={setAutoSsl} />
           </div>
         </div>
         <DialogFooter>

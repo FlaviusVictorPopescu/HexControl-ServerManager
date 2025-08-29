@@ -11,10 +11,23 @@ import { Rocket, ShieldCheck, Network, Wrench } from "lucide-react";
 
 export default function Index() {
   const qc = useQueryClient();
-  const { data: domains = [] } = useQuery({ queryKey: ["domains"], queryFn: Api.listDomains });
-  const create = useMutation({ mutationFn: (input: CreateDomainInput) => Api.createDomain(input), onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }) });
-  const update = useMutation({ mutationFn: ({ id, patch }: { id: string; patch: Partial<Domain> }) => Api.updateDomain(id, patch), onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }) });
-  const remove = useMutation({ mutationFn: (id: string) => Api.deleteDomain(id), onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }) });
+  const { data: domains = [] } = useQuery({
+    queryKey: ["domains"],
+    queryFn: Api.listDomains,
+  });
+  const create = useMutation({
+    mutationFn: (input: CreateDomainInput) => Api.createDomain(input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }),
+  });
+  const update = useMutation({
+    mutationFn: ({ id, patch }: { id: string; patch: Partial<Domain> }) =>
+      Api.updateDomain(id, patch),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }),
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => Api.deleteDomain(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }),
+  });
 
   const stats = useMemo(() => {
     const total = domains.length;
@@ -28,17 +41,40 @@ export default function Index() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Server Dashboard</h1>
-          <p className="text-muted-foreground">Vite + Node.js + React + Tailwind + Mongo-ready with real-time updates</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            Server Dashboard
+          </h1>
+          <p className="text-muted-foreground">
+            Vite + Node.js + React + Tailwind + Mongo-ready with real-time
+            updates
+          </p>
         </div>
-        <DomainFormDialog onSubmit={async (input) => create.mutateAsync(input)} />
+        <DomainFormDialog
+          onSubmit={async (input) => create.mutateAsync(input)}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <StatCard title="Domains" value={stats.total} icon={<Network className="h-5 w-5" />} />
-        <StatCard title="Subdomains" value={stats.sub} icon={<Wrench className="h-5 w-5" />} />
-        <StatCard title="SSL Issued" value={stats.ssl} icon={<ShieldCheck className="h-5 w-5" />} />
-        <StatCard title="Docker-Assigned" value={stats.docker} icon={<Rocket className="h-5 w-5" />} />
+        <StatCard
+          title="Domains"
+          value={stats.total}
+          icon={<Network className="h-5 w-5" />}
+        />
+        <StatCard
+          title="Subdomains"
+          value={stats.sub}
+          icon={<Wrench className="h-5 w-5" />}
+        />
+        <StatCard
+          title="SSL Issued"
+          value={stats.ssl}
+          icon={<ShieldCheck className="h-5 w-5" />}
+        />
+        <StatCard
+          title="Docker-Assigned"
+          value={stats.docker}
+          icon={<Rocket className="h-5 w-5" />}
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -46,8 +82,17 @@ export default function Index() {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Domains</CardTitle>
             <div className="space-x-2">
-              <DomainFormDialog onSubmit={async (input) => create.mutateAsync(input)} trigger={<Button size="sm">Add</Button>} />
-              <Button size="sm" variant="outline" onClick={() => qc.invalidateQueries({ queryKey: ["domains"] })}>Refresh</Button>
+              <DomainFormDialog
+                onSubmit={async (input) => create.mutateAsync(input)}
+                trigger={<Button size="sm">Add</Button>}
+              />
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => qc.invalidateQueries({ queryKey: ["domains"] })}
+              >
+                Refresh
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
@@ -73,22 +118,62 @@ export default function Index() {
           <CardTitle>One‑click Operations</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-3">
-          <Button variant="outline" className="justify-start" onClick={() => Api.installNginx()}>Install Nginx</Button>
-          <Button variant="outline" className="justify-start" onClick={() => Api.restartNginx()}>Restart Nginx</Button>
-          <Button variant="outline" className="justify-start" onClick={() => Api.restartDocker()}>Restart Docker</Button>
-          <a className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm" href="/api/scripts/nginx.sh" download>Download nginx.sh</a>
-          <a className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm" href="/api/scripts/docker-compose.sh" download>Download docker-compose.sh</a>
+          <Button
+            variant="outline"
+            className="justify-start"
+            onClick={() => Api.installNginx()}
+          >
+            Install Nginx
+          </Button>
+          <Button
+            variant="outline"
+            className="justify-start"
+            onClick={() => Api.restartNginx()}
+          >
+            Restart Nginx
+          </Button>
+          <Button
+            variant="outline"
+            className="justify-start"
+            onClick={() => Api.restartDocker()}
+          >
+            Restart Docker
+          </Button>
+          <a
+            className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm"
+            href="/api/scripts/nginx.sh"
+            download
+          >
+            Download nginx.sh
+          </a>
+          <a
+            className="inline-flex items-center justify-start rounded-md border px-3 py-2 text-sm"
+            href="/api/scripts/docker-compose.sh"
+            download
+          >
+            Download docker-compose.sh
+          </a>
         </CardContent>
       </Card>
     </div>
   );
 }
 
-function StatCard({ title, value, icon }: { title: string; value: number; icon: React.ReactNode }) {
+function StatCard({
+  title,
+  value,
+  icon,
+}: {
+  title: string;
+  value: number;
+  icon: React.ReactNode;
+}) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          {title}
+        </CardTitle>
         <div className="text-primary/70">{icon}</div>
       </CardHeader>
       <CardContent>

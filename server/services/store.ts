@@ -1,5 +1,12 @@
 import { randomUUID } from "node:crypto";
-import type { ActivityEvent, CreateDomainInput, Domain, FileEntry, ServicesStatus, UpdateDomainInput } from "@shared/api";
+import type {
+  ActivityEvent,
+  CreateDomainInput,
+  Domain,
+  FileEntry,
+  ServicesStatus,
+  UpdateDomainInput,
+} from "@shared/api";
 
 // In-memory stores (can be swapped with Mongo later)
 const domains = new Map<string, Domain>();
@@ -17,7 +24,9 @@ function now() {
 }
 
 export function listDomains(): Domain[] {
-  return Array.from(domains.values()).sort((a, b) => a.name.localeCompare(b.name));
+  return Array.from(domains.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
 }
 
 export function getDomain(id: string): Domain | undefined {
@@ -26,7 +35,10 @@ export function getDomain(id: string): Domain | undefined {
 
 export function createDomain(input: CreateDomainInput): Domain {
   const id = randomUUID();
-  const isSubdomain = Boolean(input.isSubdomain || (input.name.includes(".") && input.name.split(".").length > 2));
+  const isSubdomain = Boolean(
+    input.isSubdomain ||
+      (input.name.includes(".") && input.name.split(".").length > 2),
+  );
   const domain: Domain = {
     id,
     name: input.name.trim(),
@@ -52,18 +64,29 @@ export function createDomain(input: CreateDomainInput): Domain {
   return domain;
 }
 
-export function updateDomain(id: string, patch: UpdateDomainInput): Domain | undefined {
+export function updateDomain(
+  id: string,
+  patch: UpdateDomainInput,
+): Domain | undefined {
   const current = domains.get(id);
   if (!current) return undefined;
   const next: Domain = {
     ...current,
     ...patch,
     sslStatus:
-      patch.sslEnabled === false ? "none" : patch.sslEnabled === true && current.sslStatus === "none" ? "pending" : current.sslStatus,
+      patch.sslEnabled === false
+        ? "none"
+        : patch.sslEnabled === true && current.sslStatus === "none"
+          ? "pending"
+          : current.sslStatus,
     updatedAt: now(),
   } as Domain;
   domains.set(id, next);
-  pushActivity({ kind: "domain.updated", message: `Domain ${next.name} updated`, domainId: id });
+  pushActivity({
+    kind: "domain.updated",
+    message: `Domain ${next.name} updated`,
+    domainId: id,
+  });
   return next;
 }
 
@@ -72,7 +95,11 @@ export function deleteDomain(id: string): boolean {
   if (!d) return false;
   domains.delete(id);
   files.delete(id);
-  pushActivity({ kind: "domain.deleted", message: `Domain ${d.name} deleted`, domainId: id });
+  pushActivity({
+    kind: "domain.deleted",
+    message: `Domain ${d.name} deleted`,
+    domainId: id,
+  });
   return true;
 }
 
@@ -80,13 +107,30 @@ export function listFiles(domainId: string): FileEntry[] {
   return files.get(domainId) ?? [];
 }
 
-export function addFile(domainId: string, name: string, size: number, path: string, isDirectory = false): FileEntry | undefined {
+export function addFile(
+  domainId: string,
+  name: string,
+  size: number,
+  path: string,
+  isDirectory = false,
+): FileEntry | undefined {
   if (!domains.has(domainId)) return undefined;
-  const entry: FileEntry = { id: randomUUID(), name, size, path, updatedAt: now(), isDirectory };
+  const entry: FileEntry = {
+    id: randomUUID(),
+    name,
+    size,
+    path,
+    updatedAt: now(),
+    isDirectory,
+  };
   const arr = files.get(domainId) ?? [];
   arr.push(entry);
   files.set(domainId, arr);
-  pushActivity({ kind: "file.uploaded", message: `${name} uploaded to ${domains.get(domainId)!.name}`, domainId });
+  pushActivity({
+    kind: "file.uploaded",
+    message: `${name} uploaded to ${domains.get(domainId)!.name}`,
+    domainId,
+  });
   return entry;
 }
 
@@ -97,7 +141,11 @@ export function deleteFile(domainId: string, fileId: string): boolean {
   if (idx === -1) return false;
   const [removed] = arr.splice(idx, 1);
   files.set(domainId, arr);
-  pushActivity({ kind: "file.deleted", message: `${removed.name} deleted from ${domains.get(domainId)!.name}`, domainId });
+  pushActivity({
+    kind: "file.deleted",
+    message: `${removed.name} deleted from ${domains.get(domainId)!.name}`,
+    domainId,
+  });
   return true;
 }
 
@@ -106,7 +154,16 @@ import { saveActivity } from "./db";
 export function pushActivity(partial: Omit<ActivityEvent, "id" | "createdAt">) {
   const evt: ActivityEvent = { id: randomUUID(), createdAt: now(), ...partial };
   activities.unshift(evt);
-  try { saveActivity({ id: evt.id, kind: evt.kind, message: evt.message, createdAt: evt.createdAt, domainId: evt.domainId, meta: evt.meta }); } catch {}
+  try {
+    saveActivity({
+      id: evt.id,
+      kind: evt.kind,
+      message: evt.message,
+      createdAt: evt.createdAt,
+      domainId: evt.domainId,
+      meta: evt.meta,
+    });
+  } catch {}
   subscribers.forEach((s) => s.send(evt));
 }
 
@@ -125,9 +182,16 @@ export function subscribe(send: (data: ActivityEvent) => void): () => void {
 export function getServicesStatus(): ServicesStatus {
   return services;
 }
-export function setServiceState(name: keyof ServicesStatus, state: ServicesStatus[typeof name]) {
+export function setServiceState(
+  name: keyof ServicesStatus,
+  state: ServicesStatus[typeof name],
+) {
   services = { ...services, [name]: state } as ServicesStatus;
-  pushActivity({ kind: "service.status", message: `${name} is ${state}`, meta: { service: name, state } });
+  pushActivity({
+    kind: "service.status",
+    message: `${name} is ${state}`,
+    meta: { service: name, state },
+  });
 }
 
 // Auth sessions (opaque tokens)
@@ -147,8 +211,19 @@ export function revokeSession(token: string) {
 // Seed some demo data for a nice first-run experience
 (function seed() {
   if (domains.size > 0) return;
-  const d1 = createDomain({ name: "hexbit.ro", nodeVersion: "20", nginxProxy: "http://localhost:3000", sslEnabled: true });
-  const d2 = createDomain({ name: "api.hexbit.ro", isSubdomain: true, parentDomainId: d1.id, nodeVersion: "22", dockerContainer: "api:1.2.0" });
+  const d1 = createDomain({
+    name: "hexbit.ro",
+    nodeVersion: "20",
+    nginxProxy: "http://localhost:3000",
+    sslEnabled: true,
+  });
+  const d2 = createDomain({
+    name: "api.hexbit.ro",
+    isSubdomain: true,
+    parentDomainId: d1.id,
+    nodeVersion: "22",
+    dockerContainer: "api:1.2.0",
+  });
   updateDomain(d1.id, { sslEnabled: true });
   addFile(d1.id, "index.html", 2048, "/var/www/hexbit.ro/index.html");
   addFile(d1.id, "assets", 0, "/var/www/hexbit.ro/assets", true);

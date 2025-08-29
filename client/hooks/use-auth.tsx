@@ -19,27 +19,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const t = localStorage.getItem("auth_token");
     const e = localStorage.getItem("auth_email");
-    if (t && e) { setTok(t); setUser({ email: e }); }
+    if (t && e) {
+      setTok(t);
+      setUser({ email: e });
+    }
   }, []);
 
-  const value = useMemo<AuthContextType>(() => ({
-    user,
-    token: tok,
-    login: async (email, password) => {
-      const res = await Api.login(email, password);
-      localStorage.setItem("auth_token", res.token);
-      localStorage.setItem("auth_email", email);
-      setTok(res.token);
-      setUser({ email });
-    },
-    logout: async () => {
-      await Api.logout();
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("auth_email");
-      setTok(null);
-      setUser(null);
-    },
-  }), [user, tok]);
+  const value = useMemo<AuthContextType>(
+    () => ({
+      user,
+      token: tok,
+      login: async (email, password) => {
+        const res = await Api.login(email, password);
+        localStorage.setItem("auth_token", res.token);
+        localStorage.setItem("auth_email", email);
+        setTok(res.token);
+        setUser({ email });
+      },
+      logout: async () => {
+        await Api.logout();
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_email");
+        setTok(null);
+        setUser(null);
+      },
+    }),
+    [user, tok],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

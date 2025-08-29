@@ -1,5 +1,9 @@
 import type { RequestHandler } from "express";
-import { createSession, isValidSession, revokeSession } from "../services/store";
+import {
+  createSession,
+  isValidSession,
+  revokeSession,
+} from "../services/store";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@hexbit.ro";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "hexbit2025";
@@ -16,7 +20,8 @@ export const login: RequestHandler = (req, res) => {
 export const me: RequestHandler = (req, res) => {
   const auth = req.headers.authorization || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : undefined;
-  if (!isValidSession(token)) return res.status(401).json({ error: "Unauthorized" });
+  if (!isValidSession(token))
+    return res.status(401).json({ error: "Unauthorized" });
   res.json({ ok: true });
 };
 

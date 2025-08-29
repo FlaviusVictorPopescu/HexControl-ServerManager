@@ -21,7 +21,11 @@ const queryClient = new QueryClient();
 function RequireAuth() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  return <AppLayout><Outlet /></AppLayout>;
+  return (
+    <AppLayout>
+      <Outlet />
+    </AppLayout>
+  );
 }
 
 const App = () => (

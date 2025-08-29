@@ -1,6 +1,12 @@
 import type { RequestHandler } from "express";
 import type { CreateDomainInput, UpdateDomainInput } from "@shared/api";
-import { createDomain, deleteDomain, getDomain, listDomains, updateDomain } from "../services/store";
+import {
+  createDomain,
+  deleteDomain,
+  getDomain,
+  listDomains,
+  updateDomain,
+} from "../services/store";
 
 export const getDomains: RequestHandler = (_req, res) => {
   res.json(listDomains());

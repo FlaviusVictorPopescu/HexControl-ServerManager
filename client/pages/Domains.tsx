@@ -9,14 +9,18 @@ import type { CreateDomainInput, Domain } from "@shared/api";
 
 export default function Domains() {
   const qc = useQueryClient();
-  const { data: domains = [], isLoading } = useQuery({ queryKey: ["domains"], queryFn: Api.listDomains });
+  const { data: domains = [], isLoading } = useQuery({
+    queryKey: ["domains"],
+    queryFn: Api.listDomains,
+  });
 
   const create = useMutation({
     mutationFn: (input: CreateDomainInput) => Api.createDomain(input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }),
   });
   const update = useMutation({
-    mutationFn: ({ id, patch }: { id: string; patch: Partial<Domain> }) => Api.updateDomain(id, patch),
+    mutationFn: ({ id, patch }: { id: string; patch: Partial<Domain> }) =>
+      Api.updateDomain(id, patch),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["domains"] }),
   });
   const remove = useMutation({
@@ -28,7 +32,9 @@ export default function Domains() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Domains</h1>
-        <DomainFormDialog onSubmit={async (input) => create.mutateAsync(input)} />
+        <DomainFormDialog
+          onSubmit={async (input) => create.mutateAsync(input)}
+        />
       </div>
       <Card>
         <CardHeader>

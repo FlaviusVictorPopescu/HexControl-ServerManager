@@ -3,3 +3,8 @@
 {"id":"5306fec1-1af2-40fb-a57c-a9d8a637c69f","kind":"domain.updated","message":"Domain hexbit.ro updated","createdAt":"2025-08-29T21:47:50.899Z","domainId":"c5f5394e-63fa-48e9-9aa5-9a818eccb6c6"}
 {"id":"07865d98-a374-444b-9bfe-b2c25e11fd96","kind":"file.uploaded","message":"index.html uploaded to hexbit.ro","createdAt":"2025-08-29T21:47:50.899Z","domainId":"c5f5394e-63fa-48e9-9aa5-9a818eccb6c6"}
 {"id":"16443df5-28b6-487e-b0b5-46093e4650e9","kind":"file.uploaded","message":"assets uploaded to hexbit.ro","createdAt":"2025-08-29T21:47:50.899Z","domainId":"c5f5394e-63fa-48e9-9aa5-9a818eccb6c6"}
+{"id":"371802ab-4701-492f-a676-03b95ce78b47","kind":"domain.created","message":"Domain hexbit.ro created","createdAt":"2025-08-29T21:49:29.559Z","domainId":"5b3b71c6-fbe4-4bbd-93bf-084d48a17538"}
+{"id":"48204682-e89b-4764-ac28-f3d09c0224b4","kind":"domain.created","message":"Domain api.hexbit.ro created","createdAt":"2025-08-29T21:49:29.559Z","domainId":"4c6464bc-fda1-425a-a96d-e219caa25162"}
+{"id":"d8c9cce8-b310-4a64-b3eb-07c5547cc3a9","kind":"domain.updated","message":"Domain hexbit.ro updated","createdAt":"2025-08-29T21:49:29.559Z","domainId":"5b3b71c6-fbe4-4bbd-93bf-084d48a17538"}
+{"id":"9f96b4e8-cc3c-482b-93d1-592406db3608","kind":"file.uploaded","message":"index.html uploaded to hexbit.ro","createdAt":"2025-08-29T21:49:29.559Z","domainId":"5b3b71c6-fbe4-4bbd-93bf-084d48a17538"}
+{"id":"4f43d498-a23c-4752-8038-a2175b8946ad","kind":"file.uploaded","message":"assets uploaded to hexbit.ro","createdAt":"2025-08-29T21:49:29.559Z","domainId":"5b3b71c6-fbe4-4bbd-93bf-084d48a17538"}

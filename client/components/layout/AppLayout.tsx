@@ -22,21 +22,35 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
             <div>
               <div className="font-bold leading-tight">HexControl</div>
-              <div className="text-xs text-muted-foreground -mt-1">Server Manager</div>
+              <div className="text-xs text-muted-foreground -mt-1">
+                Server Manager
+              </div>
             </div>
           </Link>
         </div>
         <nav className="px-3 py-4 space-y-1">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} className={cn("flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-muted", pathname === n.to && "bg-muted text-foreground") }>
+            <Link
+              key={n.to}
+              to={n.to}
+              className={cn(
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-muted",
+                pathname === n.to && "bg-muted text-foreground",
+              )}
+            >
               <n.icon className="h-4 w-4" />
               {n.label}
             </Link>
           ))}
           <div className="mt-6 px-3">
-            <div className="text-xs uppercase text-muted-foreground mb-2">Coming soon</div>
+            <div className="text-xs uppercase text-muted-foreground mb-2">
+              Coming soon
+            </div>
             <div className="flex flex-col gap-1 opacity-60">
-              <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium bg-muted/50"><Boxes className="h-4 w-4"/>Docker</div>
+              <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium bg-muted/50">
+                <Boxes className="h-4 w-4" />
+                Docker
+              </div>
             </div>
           </div>
         </nav>
@@ -68,7 +82,12 @@ function UserEmail() {
   return (
     <div className="flex items-center gap-3">
       <span>{user?.email}</span>
-      <button className="text-xs rounded-md border px-2 py-1 hover:bg-muted" onClick={() => logout()}>Logout</button>
+      <button
+        className="text-xs rounded-md border px-2 py-1 hover:bg-muted"
+        onClick={() => logout()}
+      >
+        Logout
+      </button>
     </div>
   );
 }

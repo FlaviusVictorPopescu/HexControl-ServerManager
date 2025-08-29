@@ -11,7 +11,8 @@ export function startServicesPoller() {
       const nginx = await getServiceState("nginx");
       if (nginx !== getServicesStatus().nginx) setServiceState("nginx", nginx);
       const docker = await getServiceState("docker");
-      if (docker !== getServicesStatus().docker) setServiceState("docker", docker);
+      if (docker !== getServicesStatus().docker)
+        setServiceState("docker", docker);
     } catch (e) {
       // swallow errors; keep polling
     }

@@ -2,22 +2,47 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { getDomains, postDomain, putDomain, deleteDomainHandler, getDomainById } from "./routes/domains";
-import { listFilesHandler, uploadFileHandler, deleteFileHandler } from "./routes/files";
+import {
+  getDomains,
+  postDomain,
+  putDomain,
+  deleteDomainHandler,
+  getDomainById,
+} from "./routes/domains";
+import {
+  listFilesHandler,
+  uploadFileHandler,
+  deleteFileHandler,
+} from "./routes/files";
 import { sseEvents } from "./routes/events";
 import { installNginx, restartDocker, restartNginx } from "./routes/ops";
 import { login, logout, me } from "./routes/auth";
 import { getNginxScript, getDockerComposeScript } from "./routes/scripts";
 import { getServices } from "./routes/services";
-import { configureProxy, getNginxConfig, listNginxSites, enableSite, disableSite, issueSSL } from "./routes/nginx";
+import {
+  configureProxy,
+  getNginxConfig,
+  listNginxSites,
+  enableSite,
+  disableSite,
+  issueSSL,
+} from "./routes/nginx";
 import { listActivities } from "./routes/activities";
 import { getCertExpiry } from "./routes/certificates";
-import { assignContainerToDomain, createContainer, deleteContainer, installDocker as dockerInstall, listContainers as dockerList } from "./routes/docker";
+import {
+  assignContainerToDomain,
+  createContainer,
+  deleteContainer,
+  installDocker as dockerInstall,
+  listContainers as dockerList,
+} from "./routes/docker";
 
 export function createServer() {
   const app = express();
   // Start background poller for services (SSH)
-  try { require("./services/poller").startServicesPoller(); } catch {}
+  try {
+    require("./services/poller").startServicesPoller();
+  } catch {}
 
   // Middleware
   app.use(cors());

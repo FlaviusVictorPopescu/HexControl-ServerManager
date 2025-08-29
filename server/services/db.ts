@@ -29,7 +29,14 @@ try {
 
 const jsonl = path.join(dataDir, "activities.jsonl");
 
-export function saveActivity(row: { id: string; kind: string; message: string; createdAt: string; domainId?: string; meta?: any }) {
+export function saveActivity(row: {
+  id: string;
+  kind: string;
+  message: string;
+  createdAt: string;
+  domainId?: string;
+  meta?: any;
+}) {
   if (hasSqlite) {
     const stmt = db.prepare(
       "INSERT INTO activities (id, kind, message, created_at, domain_id, meta) VALUES (?, ?, ?, ?, ?, ?)",
@@ -55,16 +62,27 @@ export function fetchActivities(limit = 100) {
     );
     return stmt
       .all(limit)
-      .map((r: any) => ({ ...r, meta: r.meta ? JSON.parse(r.meta) : undefined }));
+      .map((r: any) => ({
+        ...r,
+        meta: r.meta ? JSON.parse(r.meta) : undefined,
+      }));
   }
   if (!fs.existsSync(jsonl)) return [] as any[];
-  const lines = fs.readFileSync(jsonl, "utf8").trim().split(/\n/).filter(Boolean).slice(-limit).reverse();
-  return lines.map((l) => {
-    try {
-      const r = JSON.parse(l);
-      return r;
-    } catch {
-      return null;
-    }
-  }).filter(Boolean);
+  const lines = fs
+    .readFileSync(jsonl, "utf8")
+    .trim()
+    .split(/\n/)
+    .filter(Boolean)
+    .slice(-limit)
+    .reverse();
+  return lines
+    .map((l) => {
+      try {
+        const r = JSON.parse(l);
+        return r;
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
 }

@@ -29,23 +29,42 @@ export default function Login() {
 
   return (
     <div className="min-h-screen grid place-items-center bg-gradient-to-br from-background to-muted/40 px-4">
-      <form onSubmit={submit} className="w-full max-w-sm rounded-lg border bg-card p-6 shadow-sm">
+      <form
+        onSubmit={submit}
+        className="w-full max-w-sm rounded-lg border bg-card p-6 shadow-sm"
+      >
         <div className="mb-6 text-center">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/30 text-primary font-bold">H</div>
+          <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/30 text-primary font-bold">
+            H
+          </div>
           <h1 className="mt-3 text-xl font-bold">Sign in to HexControl</h1>
-          <p className="text-sm text-muted-foreground">Use your admin credentials</p>
+          <p className="text-sm text-muted-foreground">
+            Use your admin credentials
+          </p>
         </div>
         <div className="grid gap-3">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           {error && <div className="text-sm text-destructive">{error}</div>}
-          <Button type="submit" disabled={loading}>{loading ? "Signing in..." : "Sign in"}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </Button>
         </div>
       </form>
     </div>

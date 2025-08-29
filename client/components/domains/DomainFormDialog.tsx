@@ -1,13 +1,34 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { CreateDomainInput, Domain, NodeVersion } from "@shared/api";
 
-export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (input: CreateDomainInput, id?: string) => Promise<any> | any; trigger?: React.ReactNode; initial?: Domain | null }) {
+export function DomainFormDialog({
+  onSubmit,
+  trigger,
+  initial,
+}: {
+  onSubmit: (input: CreateDomainInput, id?: string) => Promise<any> | any;
+  trigger?: React.ReactNode;
+  initial?: Domain | null;
+}) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [nodeVersion, setNodeVersion] = useState<NodeVersion>("20");
@@ -35,13 +56,29 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
   }, [initial, open]);
 
   const submit = async () => {
-    await onSubmit({ name, nodeVersion, sslEnabled, autoSslEnabled: autoSsl, dockerContainer: dockerContainer || null, nginxProxy: nginxProxy || null }, initial?.id);
+    await onSubmit(
+      {
+        name,
+        nodeVersion,
+        sslEnabled,
+        autoSslEnabled: autoSsl,
+        dockerContainer: dockerContainer || null,
+        nginxProxy: nginxProxy || null,
+      },
+      initial?.id,
+    );
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : <DialogTrigger asChild><Button variant="default">Add Domain</Button></DialogTrigger>}
+      {trigger ? (
+        <DialogTrigger asChild>{trigger}</DialogTrigger>
+      ) : (
+        <DialogTrigger asChild>
+          <Button variant="default">Add Domain</Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>{initial ? "Edit Domain" : "Add Domain"}</DialogTitle>
@@ -49,42 +86,72 @@ export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (in
         <div className="grid gap-4 py-2">
           <div className="grid gap-2">
             <Label htmlFor="name">Domain / Subdomain</Label>
-            <Input id="name" placeholder="example.com or api.example.com" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="name"
+              placeholder="example.com or api.example.com"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="grid gap-2">
             <Label>Node Version</Label>
-            <Select value={nodeVersion} onValueChange={(v) => setNodeVersion(v as NodeVersion)}>
-              <SelectTrigger><SelectValue placeholder="Select version" /></SelectTrigger>
+            <Select
+              value={nodeVersion}
+              onValueChange={(v) => setNodeVersion(v as NodeVersion)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select version" />
+              </SelectTrigger>
               <SelectContent>
-                {(["16","18","20","22"] as NodeVersion[]).map(v => (<SelectItem key={v} value={v}>{v}</SelectItem>))}
+                {(["16", "18", "20", "22"] as NodeVersion[]).map((v) => (
+                  <SelectItem key={v} value={v}>
+                    {v}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="nginx">Nginx Upstream (optional)</Label>
-            <Input id="nginx" placeholder="http://localhost:3000" value={nginxProxy} onChange={(e) => setNginxProxy(e.target.value)} />
+            <Input
+              id="nginx"
+              placeholder="http://localhost:3000"
+              value={nginxProxy}
+              onChange={(e) => setNginxProxy(e.target.value)}
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="docker">Docker Container (optional)</Label>
-            <Input id="docker" placeholder="web:latest" value={dockerContainer} onChange={(e) => setDockerContainer(e.target.value)} />
+            <Input
+              id="docker"
+              placeholder="web:latest"
+              value={dockerContainer}
+              onChange={(e) => setDockerContainer(e.target.value)}
+            />
           </div>
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Enable SSL</Label>
-              <p className="text-xs text-muted-foreground">Serve HTTPS for this domain</p>
+              <p className="text-xs text-muted-foreground">
+                Serve HTTPS for this domain
+              </p>
             </div>
             <Switch checked={sslEnabled} onCheckedChange={setSslEnabled} />
           </div>
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Auto SSL (certbot)</Label>
-              <p className="text-xs text-muted-foreground">Automatically issue/renew certificates</p>
+              <p className="text-xs text-muted-foreground">
+                Automatically issue/renew certificates
+              </p>
             </div>
             <Switch checked={autoSsl} onCheckedChange={setAutoSsl} />
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={submit}>{initial ? "Save Changes" : "Create"}</Button>
+          <Button onClick={submit}>
+            {initial ? "Save Changes" : "Create"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

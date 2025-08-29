@@ -11,12 +11,15 @@ const SSH_USER = env("SSH_USER", "root");
 const SSH_PASSWORD = env("SSH_PASSWORD");
 const SSH_PRIVATE_KEY = env("SSH_PRIVATE_KEY");
 
-export async function runSSH(command: string): Promise<{ code: number; stdout: string; stderr: string }> {
+export async function runSSH(
+  command: string,
+): Promise<{ code: number; stdout: string; stderr: string }> {
   if (!SSH_HOST) throw new Error("SSH_HOST not configured");
   return new Promise((resolve, reject) => {
     const conn = new Client();
     const cfg: any = { host: SSH_HOST, port: SSH_PORT, username: SSH_USER };
-    if (SSH_PRIVATE_KEY && SSH_PRIVATE_KEY.includes("BEGIN")) cfg.privateKey = SSH_PRIVATE_KEY;
+    if (SSH_PRIVATE_KEY && SSH_PRIVATE_KEY.includes("BEGIN"))
+      cfg.privateKey = SSH_PRIVATE_KEY;
     else if (SSH_PASSWORD) cfg.password = SSH_PASSWORD;
     conn
       .on("ready", () => {
@@ -41,8 +44,13 @@ export async function runSSH(command: string): Promise<{ code: number; stdout: s
   });
 }
 
-export async function getServiceState(name: "nginx" | "docker"): Promise<"running" | "stopped"> {
-  const cmd = name === "docker" ? "systemctl is-active docker || echo inactive" : "systemctl is-active nginx || echo inactive";
+export async function getServiceState(
+  name: "nginx" | "docker",
+): Promise<"running" | "stopped"> {
+  const cmd =
+    name === "docker"
+      ? "systemctl is-active docker || echo inactive"
+      : "systemctl is-active nginx || echo inactive";
   const { stdout } = await runSSH(cmd);
   const res = stdout.trim();
   return res === "active" ? "running" : "stopped";

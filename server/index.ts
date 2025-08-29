@@ -11,6 +11,7 @@ import { getNginxScript, getDockerComposeScript } from "./routes/scripts";
 import { getServices } from "./routes/services";
 import { configureProxy, getNginxConfig, listNginxSites, enableSite, disableSite, issueSSL } from "./routes/nginx";
 import { listActivities } from "./routes/activities";
+import { getCertExpiry } from "./routes/certificates";
 
 export function createServer() {
   const app = express();

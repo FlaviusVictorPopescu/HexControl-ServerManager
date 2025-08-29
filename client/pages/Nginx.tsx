@@ -37,6 +37,7 @@ export default function NginxPage() {
                   <TableHead>Upstream</TableHead>
                   <TableHead>Listens</TableHead>
                   <TableHead>File</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -46,10 +47,20 @@ export default function NginxPage() {
                     <TableCell className="text-muted-foreground">{s.upstream || "—"}</TableCell>
                     <TableCell>{s.listens.join(", ")}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{s.file}</TableCell>
+                    <TableCell className="text-right space-x-2">
+                      {s.enabled ? (
+                        <Button size="sm" variant="outline" onClick={() => Api.disableSite(s.serverName || s.file.split("/").pop()?.replace(".conf","") || "").then(() => sites.refetch())}>Disable</Button>
+                      ) : (
+                        <Button size="sm" onClick={() => Api.enableSite(s.serverName || s.file.split("/").pop()?.replace(".conf","") || "").then(() => sites.refetch())}>Enable</Button>
+                      )}
+                      {(s.serverName) && (
+                        <Button size="sm" variant="secondary" onClick={() => Api.issueSSL(s.serverName).then(() => sites.refetch())}>Issue SSL</Button>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
                 {sites.data && sites.data.length === 0 && (
-                  <TableRow><TableCell colSpan={4} className="text-sm text-muted-foreground">No sites found</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="text-sm text-muted-foreground">No sites found</TableCell></TableRow>
                 )}
               </TableBody>
             </Table>

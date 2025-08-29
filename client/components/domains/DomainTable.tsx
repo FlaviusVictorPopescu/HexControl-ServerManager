@@ -62,3 +62,17 @@ export function DomainTable({ domains, onEdit, onDelete }: { domains: Domain[]; 
     </div>
   );
 }
+
+function Expiry({ domain }: { domain: string }) {
+  const [exp, setExp] = useState<string | null | undefined>(undefined);
+  React.useEffect(() => {
+    let active = true;
+    Api.certExpiry(domain).then((r) => active && setExp(r.expiresAt)).catch(() => active && setExp(null));
+    return () => { active = false; };
+  }, [domain]);
+  if (exp === undefined) return <span className="text-xs text-muted-foreground">…</span>;
+  if (!exp) return <span className="text-xs text-muted-foreground">none</span>;
+  const d = new Date(exp);
+  const days = Math.round((d.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  return <span className={days < 15 ? "text-red-600 text-xs" : "text-xs text-muted-foreground"}>{d.toLocaleDateString()} ({days}d)</span>;
+}

@@ -41,10 +41,22 @@ export function createServer() {
   // Real-time events via SSE
   app.get("/api/events", sseEvents);
 
+  // Auth
+  app.post("/api/auth/login", login);
+  app.get("/api/auth/me", me);
+  app.post("/api/auth/logout", logout);
+
+  // Services status
+  app.get("/api/services/status", getServices);
+
   // Operations (stubbed)
   app.post("/api/nginx/install", installNginx);
   app.post("/api/nginx/restart", restartNginx);
   app.post("/api/docker/restart", restartDocker);
+
+  // Install scripts
+  app.get("/api/scripts/nginx.sh", getNginxScript);
+  app.get("/api/scripts/docker-compose.sh", getDockerComposeScript);
 
   return app;
 }

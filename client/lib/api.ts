@@ -47,6 +47,9 @@ export const Api = {
   getNginxConfig: () => fetch("/api/nginx/config").then((r) => r.text()),
   listNginxSites: () => http<import("@shared/api").NginxSiteSummary[]>("/api/nginx/sites"),
   setNginxProxy: (domain: string, upstream: string) => http<{ status: string }>("/api/nginx/proxy", { method: "POST", body: JSON.stringify({ domain, upstream }) }),
+  enableSite: (domain: string) => http<{ status: string }>("/api/nginx/sites/enable", { method: "POST", body: JSON.stringify({ domain }) }),
+  disableSite: (domain: string) => http<{ status: string }>("/api/nginx/sites/disable", { method: "POST", body: JSON.stringify({ domain }) }),
+  issueSSL: (domain: string) => http<{ status: string }>("/api/nginx/ssl", { method: "POST", body: JSON.stringify({ domain }) }),
   login: (email: string, password: string) => http<{ token: string; user: { email: string } }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   logout: () => fetch("/api/auth/logout", { method: "POST", headers: { Authorization: `Bearer ${token()}` } }).then(() => {}),
 };

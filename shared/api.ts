@@ -71,6 +71,14 @@ export interface Paginated<T> {
   total: number;
 }
 
+export interface NginxSiteSummary {
+  file: string;
+  serverName: string;
+  listens: string[];
+  upstream: string | null;
+  enabled: boolean;
+}
+
 export interface CreateDomainInput {
   name: string;
   isSubdomain?: boolean;

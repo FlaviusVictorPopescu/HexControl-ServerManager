@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { CreateDomainInput, Domain, NodeVersion } from "@shared/api";
 
-export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (input: CreateDomainInput, id?: string) => Promise<void> | void; trigger?: React.ReactNode; initial?: Domain | null }) {
+export function DomainFormDialog({ onSubmit, trigger, initial }: { onSubmit: (input: CreateDomainInput, id?: string) => Promise<any> | any; trigger?: React.ReactNode; initial?: Domain | null }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [nodeVersion, setNodeVersion] = useState<NodeVersion>("20");
